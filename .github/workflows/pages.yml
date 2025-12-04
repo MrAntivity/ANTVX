@@ -11,12 +11,17 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  actions: read
 
 concurrency:
   group: "pages"
   cancel-in-progress: true
 
 jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
   build:
     runs-on: ubuntu-latest
     steps:
@@ -24,6 +29,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          enablement: true
+
+      - name: Upload static site
         uses: actions/configure-pages@v5
 
       - name: Upload site artifact

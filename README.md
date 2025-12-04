@@ -14,6 +14,10 @@ A GitHub Actions workflow (`.github/workflows/pages.yml`) publishes the site whe
 
 To enable hosting:
 1. Merge your changes to one of those branches on GitHub.
+2. The workflow auto-enables GitHub Pages via `actions/configure-pages` with the `enablement` flag and the default `GITHUB_TOKEN`, so no manual toggle is required.
+3. The `Deploy static site to GitHub Pages` workflow will build and deploy to the `github-pages` environment; the run summary shows the live URL.
+
+If Pages is not serving the site, confirm the workflow succeeded. On private repositories, ensure the `GITHUB_TOKEN` has `pages:write` permissions in the repo settings. If your org restricts Pages, make sure the workflow token also has `actions:read` scope so the auto-enablement call is allowed.
 2. In **Settings → Pages**, choose **Deploy from a branch** with the **GitHub Actions** source.
 3. The `Deploy static site to GitHub Pages` workflow will build and deploy to the `github-pages` environment; the run summary shows the live URL.
 
