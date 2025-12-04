@@ -20,129 +20,150 @@
         <img src="assets/logo.svg" alt="ANTVX logo" class="logo" />
       </div>
       <div class="brand-text">
-        <span class="eyebrow">Game Development Studio</span>
-        <h1>ANTVX STUDIOS</h1>
+        <span class="eyebrow">Studio</span>
+        <h1>ANTVX</h1>
       </div>
     </div>
     <nav class="nav">
-      <a href="#about">About</a>
-      <a href="#titles">Titles</a>
+      <a href="#top">Home</a>
+      <a href="#titles">Worlds</a>
       <a href="#team">Team</a>
-      <a href="#socials">Socials</a>
+      <a href="#contact">Contact</a>
     </nav>
   </header>
 
-  <main>
-    <section class="hero" id="about">
-      <div class="hero-copy" data-animate>
-        <p class="eyebrow">Roblox world-builders</p>
-        <h2>Modern, cinematic universes built for role-play, collaboration, and limitless imagination.</h2>
-        <p class="lede">ANTVX STUDIOS crafts sleek, systems-driven Roblox experiences—from time-warped cities to frontier colonies—designed for communities who love to live inside the worlds they play.</p>
-        <div class="cta-row">
-          <a class="primary" href="#titles">View our titles</a>
-          <a class="ghost" href="https://discord.gg/S7pMHNF8z7" target="_blank" rel="noreferrer">Join Discord</a>
-        </div>
-        <div class="status-row">
-          <span class="status-dot"></span>
-          <p>Actively developing new chapters for every universe.</p>
-        </div>
+  <main id="top">
+    <section class="hero" data-animate>
+      <p class="eyebrow">Roblox-first storytellers</p>
+      <h2>ANTVX STUDIOS</h2>
+      <p class="lede">We build sleek, cinematic worlds that feel alive—spaces where role-play, collaboration, and exploration stay front and center.</p>
+      <div class="cta-row">
+        <a class="primary" href="#titles">See our universes</a>
+        <a class="ghost" href="https://discord.gg/S7pMHNF8z7" target="_blank" rel="noreferrer">Join the Discord</a>
       </div>
-      <div class="hero-visual" data-animate>
-        <div class="orb">
-          <div class="orb-ring ring-one"></div>
-          <div class="orb-ring ring-two"></div>
-          <div class="orb-ring ring-three"></div>
-          <img src="assets/logo.svg" alt="ANTVX ant icon" class="orb-logo" />
-          <div class="orb-badge">Roblox-first</div>
-        </div>
+      <div class="scroll-hint">
+        <span class="scroll-dot"></span>
+        <p>Scroll to explore</p>
       </div>
     </section>
 
-    <section class="pillars" data-animate>
-      <article class="pillar-card">
-        <h3>Immersive stories</h3>
-        <p>Worlds with lore, secrets, and evolving events that keep communities returning.</p>
-      </article>
-      <article class="pillar-card">
-        <h3>Player-first systems</h3>
-        <p>Responsive mechanics that reward creativity—role-play, strategy, and discovery.</p>
-      </article>
-      <article class="pillar-card">
-        <h3>Future-ready</h3>
-        <p>Scalable design for live updates, new roles, and cross-world connections.</p>
-      </article>
+    <section class="about" data-animate>
+      <div class="about-card">
+        <h3>Less noise. More immersion.</h3>
+        <p>We focus on clean interfaces, generous breathing room, and playful motion so you can slide through our universes without ever feeling rushed.</p>
+      </div>
+      <div class="about-card">
+        <h3>Interactive by design.</h3>
+        <p>Every scroll reveals another layer—titles surface with motion, timelines come alive, and every page invites you deeper into development.</p>
+      </div>
     </section>
 
     <section id="titles" class="titles" data-animate>
       <div class="section-header">
-        <p class="eyebrow">Roblox creations</p>
-        <h3>Featured ANTVX worlds</h3>
+        <p class="eyebrow">Worlds in the works</p>
+        <h3>Scroll to meet each title</h3>
+        <p class="muted">Click a world to open its focused page. Every universe is under active development with its own timeline.</p>
       </div>
       <div class="title-grid">
-        <article class="title-card">
-          <div class="title-top">
+        <a class="title-card" href="titles/time-travelers.html" data-parallax data-speed="0.16">
+          <div class="title-visual gradient-a">
+            <div class="visual-glyph">⏳</div>
+          </div>
+          <div class="title-copy">
             <span class="pill">Role-play universe</span>
-            <img src="assets/logo.svg" alt="ANTVX" class="mini-logo" />
+            <h4>Time Travelers' District</h4>
+            <p>Walk from neon futures to vintage alleys in a single block. Missions, personas, and secrets shift as you slide between eras.</p>
           </div>
-          <h4>Time Travelers' District</h4>
-          <p>A living city split into eras—step from neon future blocks to vintage streets and slip between identities, missions, and timelines.</p>
-        </article>
-        <article class="title-card">
-          <div class="title-top">
+        </a>
+        <a class="title-card" href="titles/disaster-city.html" data-parallax data-speed="0.12">
+          <div class="title-visual gradient-b">
+            <div class="visual-glyph">⚡</div>
+          </div>
+          <div class="title-copy">
             <span class="pill">Simulation</span>
-            <img src="assets/logo.svg" alt="ANTVX" class="mini-logo" />
+            <h4>Disaster City</h4>
+            <p>Neighborhood responders rebuild the skyline after dynamic storms, quakes, and fires—balancing resources and teamwork.</p>
           </div>
-          <h4>Disaster City</h4>
-          <p>You’re not superheroes; you’re neighbors who answer the call. Coordinate responses, manage resources, and keep the city steady.</p>
-        </article>
-        <article class="title-card">
-          <div class="title-top">
+        </a>
+        <a class="title-card" href="titles/parallel-lives.html" data-parallax data-speed="0.1">
+          <div class="title-visual gradient-c">
+            <div class="visual-glyph">∞</div>
+          </div>
+          <div class="title-copy">
             <span class="pill">Dual-world play</span>
-            <img src="assets/logo.svg" alt="ANTVX" class="mini-logo" />
+            <h4>Parallel Lives</h4>
+            <p>Swap between two synced realities. Choices ripple across both timelines, unlocking roles, routes, and unexpected allies.</p>
           </div>
-          <h4>Parallel Lives</h4>
-          <p>Switch on command between a familiar life and its alternate universe—unlocking relationships, routes, and twists that reshape both.</p>
-        </article>
-        <article class="title-card">
-          <div class="title-top">
+        </a>
+        <a class="title-card" href="titles/space-colony.html" data-parallax data-speed="0.08">
+          <div class="title-visual gradient-d">
+            <div class="visual-glyph">✦</div>
+          </div>
+          <div class="title-copy">
             <span class="pill">Sci-fi colony</span>
-            <img src="assets/logo.svg" alt="ANTVX" class="mini-logo" />
+            <h4>Space Colony</h4>
+            <p>Engineer habitats, study alien life, and keep oxygen stable on a distant frontier. Every role pushes humanity forward.</p>
           </div>
-          <h4>Space Colony</h4>
-          <p>Build a future on a distant world: balance oxygen systems, study alien creatures, and take on futuristic roles that push humanity forward.</p>
-        </article>
+        </a>
       </div>
     </section>
 
     <section id="team" class="team" data-animate>
       <div class="section-header">
         <p class="eyebrow">Team</p>
-        <h3>Founders leading the charge</h3>
+        <h3>The crew behind ANTVX</h3>
       </div>
       <div class="team-grid">
-        <article class="team-card">
+        <article class="team-card" data-parallax data-speed="0.08">
           <h4>Aiden "Antivity" Yue</h4>
-          <p>Co-founder & Creative Direction</p>
+          <p>Creative Direction & World-building</p>
         </article>
-        <article class="team-card">
+        <article class="team-card" data-parallax data-speed="0.08">
           <h4>Michael "Starpuffle" Lang</h4>
-          <p>Co-founder & Systems Design</p>
+          <p>Systems Design & Live Ops</p>
         </article>
+        <article class="team-card" data-parallax data-speed="0.08">
+          <h4>Nova Chen</h4>
+          <p>Experience Design & Interaction</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" class="contact" data-animate>
+      <div class="contact-card">
+        <div>
+          <p class="eyebrow">Community & Contact</p>
+          <h3>Discord, email, and updates</h3>
+          <p class="muted">Join our Discord to peek at dev drops, or send us a note. We keep the inbox open for collaborators and community alike.</p>
+          <div class="contact-links">
+            <a class="primary" href="https://discord.gg/S7pMHNF8z7" target="_blank" rel="noreferrer">Discord</a>
+            <a class="ghost" href="mailto:antvxstudios@gmail.com">antvxstudios@gmail.com</a>
+          </div>
+        </div>
+        <div class="social-stack">
+          <div class="social-row">
+            <span class="pill">Discord</span>
+            <p>Community hangouts, Q&A, and early tests.</p>
+          </div>
+          <div class="social-row">
+            <span class="pill">Email</span>
+            <p>antvxstudios@gmail.com</p>
+          </div>
+        </div>
       </div>
     </section>
   </main>
 
-  <footer id="socials" class="footer">
-    <div class="footer-left" data-animate>
+  <footer class="footer">
+    <div class="footer-left">
       <img src="assets/logo.svg" alt="ANTVX logo" class="logo" />
       <div>
-        <p class="eyebrow">Stay connected</p>
-        <h3>Join the ANTVX community</h3>
-        <p class="muted">Follow launches, dev logs, and community events.</p>
+        <p class="eyebrow">ANTVX STUDIOS</p>
+        <p class="muted">Building interactive Roblox worlds with room to breathe.</p>
       </div>
     </div>
-    <div class="footer-actions" data-animate>
-      <a class="primary" href="https://discord.gg/S7pMHNF8z7" target="_blank" rel="noreferrer">Discord</a>
+    <div class="footer-actions">
+      <a class="ghost" href="#top">Back to top</a>
     </div>
   </footer>
 
