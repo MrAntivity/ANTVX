@@ -63,6 +63,18 @@ body {
   gap: 12px;
 }
 
+.brand-link {
+  color: inherit;
+  text-decoration: none;
+  display: inline-flex;
+}
+
+.brand-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+  border-radius: 18px;
+}
+
 .brand-mark {
   width: 52px;
   height: 52px;
@@ -213,7 +225,7 @@ body {
 }
 
 .section-header {
-  margin: 36px 0 14px;
+  margin: 40px 0 16px;
 }
 
 .section-header h3 {
@@ -225,7 +237,8 @@ body {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
   border: 1px solid var(--border);
   border-radius: 24px;
-  padding: 26px;
+  padding: 32px;
+  margin: 46px 0 60px;
   box-shadow: var(--shadow);
   position: relative;
   overflow: hidden;
@@ -242,17 +255,17 @@ body {
 .title-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 16px;
-  margin-top: 16px;
+  gap: 22px;
+  margin-top: 22px;
 }
 
 .title-card {
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 18px;
-  padding: 16px;
+  padding: 18px;
   box-shadow: var(--shadow);
-  transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+  transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
   position: relative;
   text-decoration: none;
   color: inherit;
@@ -260,9 +273,10 @@ body {
 }
 
 .title-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-6px) scale(1.02);
   border-color: rgba(124, 240, 201, 0.5);
   background: var(--panel-strong);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.5);
 }
 
 .title-visual {
@@ -313,61 +327,80 @@ body {
   font-size: 12px;
 }
 
+
+.framed-section {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: var(--shadow);
+  margin: 58px 0;
+}
+
+.framed-section .section-header {
+  margin: 0 0 20px;
+}
+
 .team {
-  margin: 28px 0 12px;
+  margin-top: 46px;
 }
 
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 14px;
-  margin-top: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  margin-top: 18px;
 }
 
 .team-card {
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 16px;
+  padding: 18px;
   box-shadow: var(--shadow);
   line-height: 1.5;
 }
 
 .team-card p { color: var(--muted); }
 
-.contact {
-  margin-top: 32px;
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+  margin-top: 22px;
 }
 
 .contact-card {
   background: var(--panel-strong);
   border: 1px solid var(--border);
-  border-radius: 22px;
-  padding: 22px;
+  border-radius: 24px;
+  padding: 28px;
   box-shadow: var(--shadow);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 18px;
-  align-items: center;
+  gap: 14px;
+}
+
+.contact-main {
+  align-content: start;
+  min-height: 100%;
+}
+
+.contact-details {
+  background: linear-gradient(180deg, rgba(124, 240, 201, 0.08), rgba(255, 255, 255, 0.04));
 }
 
 .contact-links {
-  margin-top: 12px;
+  margin-top: 14px;
   display: flex;
-  gap: 10px;
+  gap: 12px;
   flex-wrap: wrap;
-}
-
-.social-stack {
-  display: grid;
-  gap: 10px;
 }
 
 .social-row {
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 14px;
-  padding: 12px;
+  padding: 14px;
   display: grid;
   gap: 6px;
 }
@@ -375,14 +408,13 @@ body {
 .social-row p { color: var(--muted); }
 
 .footer {
-  margin-top: 46px;
-  padding: 22px 0 10px;
+  margin-top: 90px;
+  padding: 30px 0 14px;
   border-top: 1px solid var(--border);
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 16px;
+  gap: 14px;
 }
 
 .footer-left {
@@ -396,7 +428,9 @@ body {
   height: 42px;
 }
 
-.footer-actions { display: flex; gap: 10px; }
+.footer-actions { display: flex; gap: 10px; justify-content: flex-end; }
+
+.copyright { color: var(--muted); font-size: 13px; text-align: right; }
 
 .muted { color: var(--muted); }
 
@@ -409,10 +443,6 @@ body {
 [data-animate].visible {
   opacity: 1;
   transform: translateY(0);
-}
-
-[data-parallax] {
-  will-change: transform;
 }
 
 /* Game detail pages */
