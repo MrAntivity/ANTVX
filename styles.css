@@ -213,7 +213,7 @@ body {
 }
 
 .section-header {
-  margin: 36px 0 14px;
+  margin: 40px 0 16px;
 }
 
 .section-header h3 {
@@ -225,7 +225,8 @@ body {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
   border: 1px solid var(--border);
   border-radius: 24px;
-  padding: 26px;
+  padding: 32px;
+  margin: 46px 0 60px;
   box-shadow: var(--shadow);
   position: relative;
   overflow: hidden;
@@ -242,17 +243,17 @@ body {
 .title-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 16px;
-  margin-top: 16px;
+  gap: 22px;
+  margin-top: 22px;
 }
 
 .title-card {
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 18px;
-  padding: 16px;
+  padding: 18px;
   box-shadow: var(--shadow);
-  transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+  transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
   position: relative;
   text-decoration: none;
   color: inherit;
@@ -260,9 +261,10 @@ body {
 }
 
 .title-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-6px) scale(1.02);
   border-color: rgba(124, 240, 201, 0.5);
   background: var(--panel-strong);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.5);
 }
 
 .title-visual {
@@ -314,14 +316,14 @@ body {
 }
 
 .team {
-  margin: 28px 0 12px;
+  margin: 54px 0 20px;
 }
 
 .team-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 14px;
-  margin-top: 14px;
+  gap: 18px;
+  margin-top: 18px;
 }
 
 .team-card {
@@ -336,7 +338,7 @@ body {
 .team-card p { color: var(--muted); }
 
 .contact {
-  margin-top: 32px;
+  margin-top: 58px;
 }
 
 .contact-card {
@@ -375,8 +377,8 @@ body {
 .social-row p { color: var(--muted); }
 
 .footer {
-  margin-top: 46px;
-  padding: 22px 0 10px;
+  margin-top: 64px;
+  padding: 26px 0 12px;
   border-top: 1px solid var(--border);
   display: flex;
   align-items: center;
@@ -409,10 +411,6 @@ body {
 [data-animate].visible {
   opacity: 1;
   transform: translateY(0);
-}
-
-[data-parallax] {
-  will-change: transform;
 }
 
 /* Game detail pages */
