@@ -27,6 +27,9 @@ jobs:
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          enablement: true
 
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3
