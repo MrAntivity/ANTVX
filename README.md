@@ -18,3 +18,7 @@ To enable hosting:
 3. The `Deploy static site to GitHub Pages` workflow will build and deploy to the `github-pages` environment; the run summary shows the live URL.
 
 If Pages is not serving the site, confirm the workflow succeeded. On private repositories, ensure the `GITHUB_TOKEN` has `pages:write` permissions in the repo settings. If your org restricts Pages, make sure the workflow token also has `actions:read` scope so the auto-enablement call is allowed.
+2. In **Settings → Pages**, choose **Deploy from a branch** with the **GitHub Actions** source.
+3. The `Deploy static site to GitHub Pages` workflow will build and deploy to the `github-pages` environment; the run summary shows the live URL.
+
+If Pages is not serving the site, confirm the workflow succeeded and that Pages is enabled in the repo settings.
