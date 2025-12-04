@@ -63,6 +63,18 @@ body {
   gap: 12px;
 }
 
+.brand-link {
+  color: inherit;
+  text-decoration: none;
+  display: inline-flex;
+}
+
+.brand-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+  border-radius: 18px;
+}
+
 .brand-mark {
   width: 52px;
   height: 52px;
@@ -313,6 +325,20 @@ body {
   color: var(--accent);
   font-weight: 700;
   font-size: 12px;
+}
+
+
+.framed-section {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: var(--shadow);
+  margin: 58px 0;
+}
+
+.framed-section .section-header {
+  margin: 0 0 20px;
 }
 
 .team {
