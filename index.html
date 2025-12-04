@@ -10,12 +10,12 @@
   <link rel="icon" type="image/svg+xml" href="assets/logo.svg" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
+<body id="top">
   <div class="bg-glow glow-a"></div>
   <div class="bg-glow glow-b"></div>
 
   <header class="site-header">
-    <div class="brand">
+    <a class="brand brand-link" href="#top">
       <div class="brand-mark">
         <img src="assets/logo.svg" alt="ANTVX logo" class="logo" />
       </div>
@@ -23,7 +23,7 @@
         <span class="eyebrow">Studio</span>
         <h1>ANTVX</h1>
       </div>
-    </div>
+    </a>
     <nav class="nav">
       <a href="#top">Home</a>
       <a href="#titles">Worlds</a>
@@ -32,7 +32,7 @@
     </nav>
   </header>
 
-  <main id="top">
+  <main>
     <section class="hero" data-animate>
       <p class="eyebrow">Roblox-first storytellers</p>
       <h2>ANTVX STUDIOS</h2>
@@ -61,11 +61,11 @@
     <section id="titles" class="titles" data-animate>
       <div class="section-header">
         <p class="eyebrow">Worlds in the works</p>
-        <h3>Scroll to meet each title</h3>
+        <h3>Meet each title</h3>
         <p class="muted">Click a world to open its focused page. Every universe is under active development with its own timeline.</p>
       </div>
       <div class="title-grid">
-        <a class="title-card" href="titles/time-travelers.html" data-parallax data-speed="0.16">
+        <a class="title-card" href="titles/time-travelers.html">
           <div class="title-visual gradient-a">
             <div class="visual-glyph">⏳</div>
           </div>
@@ -75,7 +75,7 @@
             <p>Walk from neon futures to vintage alleys in a single block. Missions, personas, and secrets shift as you slide between eras.</p>
           </div>
         </a>
-        <a class="title-card" href="titles/disaster-city.html" data-parallax data-speed="0.12">
+        <a class="title-card" href="titles/disaster-city.html">
           <div class="title-visual gradient-b">
             <div class="visual-glyph">⚡</div>
           </div>
@@ -85,7 +85,7 @@
             <p>Neighborhood responders rebuild the skyline after dynamic storms, quakes, and fires—balancing resources and teamwork.</p>
           </div>
         </a>
-        <a class="title-card" href="titles/parallel-lives.html" data-parallax data-speed="0.1">
+        <a class="title-card" href="titles/parallel-lives.html">
           <div class="title-visual gradient-c">
             <div class="visual-glyph">∞</div>
           </div>
@@ -95,7 +95,7 @@
             <p>Swap between two synced realities. Choices ripple across both timelines, unlocking roles, routes, and unexpected allies.</p>
           </div>
         </a>
-        <a class="title-card" href="titles/space-colony.html" data-parallax data-speed="0.08">
+        <a class="title-card" href="titles/space-colony.html">
           <div class="title-visual gradient-d">
             <div class="visual-glyph">✦</div>
           </div>
@@ -108,46 +108,46 @@
       </div>
     </section>
 
-    <section id="team" class="team" data-animate>
+    <section id="team" class="team framed-section" data-animate>
       <div class="section-header">
         <p class="eyebrow">Team</p>
         <h3>The crew behind ANTVX</h3>
       </div>
       <div class="team-grid">
-        <article class="team-card" data-parallax data-speed="0.08">
+        <article class="team-card">
           <h4>Aiden "Antivity" Yue</h4>
-          <p>Creative Direction & World-building</p>
+          <p>End-to-end studio leadership across creative vision, production, and delivery.</p>
         </article>
-        <article class="team-card" data-parallax data-speed="0.08">
+        <article class="team-card">
           <h4>Michael "Starpuffle" Lang</h4>
-          <p>Systems Design & Live Ops</p>
-        </article>
-        <article class="team-card" data-parallax data-speed="0.08">
-          <h4>Nova Chen</h4>
-          <p>Experience Design & Interaction</p>
+          <p>Full-spectrum execution—designing, building, and operating every experience.</p>
         </article>
       </div>
     </section>
 
-    <section id="contact" class="contact" data-animate>
-      <div class="contact-card">
-        <div>
-          <p class="eyebrow">Community & Contact</p>
-          <h3>Discord, email, and updates</h3>
-          <p class="muted">Join our Discord to peek at dev drops, or send us a note. We keep the inbox open for collaborators and community alike.</p>
+    <section id="contact" class="contact framed-section" data-animate>
+      <div class="section-header">
+        <p class="eyebrow">Community & Contact</p>
+        <h3>Stay close to the studio</h3>
+        <p class="muted">Drop into the Discord, send a note, or reach out for partnerships. We keep the door open and answer every message.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-card contact-main">
+          <h4>Community hub</h4>
+          <p class="muted">Hop in for playtests, roadmap drops, and behind-the-scenes progress. It’s the fastest way to reach us.</p>
           <div class="contact-links">
-            <a class="primary" href="https://discord.gg/S7pMHNF8z7" target="_blank" rel="noreferrer">Discord</a>
-            <a class="ghost" href="mailto:antvxstudios@gmail.com">antvxstudios@gmail.com</a>
+            <a class="primary" href="https://discord.gg/S7pMHNF8z7" target="_blank" rel="noreferrer">Join the Discord</a>
+            <a class="ghost" href="mailto:antvxstudios@gmail.com">Email the studio</a>
           </div>
         </div>
-        <div class="social-stack">
+        <div class="contact-card contact-details">
           <div class="social-row">
             <span class="pill">Discord</span>
-            <p>Community hangouts, Q&A, and early tests.</p>
+            <p>Community hangouts, Q&A, early access, and weekly updates.</p>
           </div>
           <div class="social-row">
             <span class="pill">Email</span>
-            <p>antvxstudios@gmail.com</p>
+            <p>antvxstudios@gmail.com — collaborations, press, and partnerships.</p>
           </div>
         </div>
       </div>
@@ -165,6 +165,7 @@
     <div class="footer-actions">
       <a class="ghost" href="#top">Back to top</a>
     </div>
+    <p class="copyright">© 2025 ANTVX STUDIOS LLC - All Rights Reserved</p>
   </footer>
 
   <script src="script.js"></script>
