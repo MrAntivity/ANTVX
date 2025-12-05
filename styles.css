@@ -107,6 +107,8 @@ body {
   border-radius: 999px;
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .nav a {
@@ -367,6 +369,12 @@ body {
   margin-top: 58px;
 }
 
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.9fr;
+  gap: 16px;
+}
+
 .contact-card {
   background: var(--panel-strong);
   border: 1px solid var(--border);
@@ -535,12 +543,99 @@ body {
 }
 
 @media (max-width: 760px) {
-  body { padding-top: 18px; }
+  body {
+    padding: 20px 16px 90px;
+  }
 
   .site-header {
     flex-direction: column;
     align-items: flex-start;
+    top: 10px;
+    gap: 12px;
+    padding: 12px 14px;
   }
 
-  .hero { min-height: 68vh; }
+  .brand-mark {
+    width: 48px;
+    height: 48px;
+  }
+
+  .nav {
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px 10px;
+  }
+
+  .nav a {
+    padding: 10px 12px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .hero {
+    min-height: 68vh;
+    text-align: left;
+    align-items: flex-start;
+    padding: 28px 0 24px;
+  }
+
+  .cta-row {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .titles,
+  .framed-section {
+    padding: 24px;
+  }
+
+  .title-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .title-card {
+    padding: 16px;
+  }
+
+  .team-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-card {
+    padding: 20px;
+  }
+
+  .footer {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+
+  .footer-actions,
+  .copyright {
+    justify-content: flex-start;
+    text-align: left;
+  }
+}
+
+@media (max-width: 520px) {
+  body {
+    padding: 18px 14px 84px;
+  }
+
+  .site-header {
+    border-radius: 16px;
+  }
+
+  .hero h2 {
+    font-size: clamp(32px, 10vw, 46px);
+  }
+
+  .about {
+    grid-template-columns: 1fr;
+  }
 }
