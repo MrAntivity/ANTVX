@@ -26,3 +26,9 @@ Motion uses a single requestAnimationFrame update per scroll frame. Reduced-moti
 `assets/frontier.webp` is original AI-generated studio concept art, not a gameplay screenshot. Its source image was generated for this redesign and optimized to WebP (1672 × 941).
 
 Before publishing, open the home page at desktop and phone sizes, scroll forward and backward through the hero, follow each world link, and check keyboard navigation and your system’s reduced-motion setting. Automated checks cover local links, JavaScript syntax, scroll progress and reversal, and motion preference changes; visual browser review is still needed.
+
+### Three-scene hero
+
+The hero layers two additional original concept images (`assets/hero-city.webp` and `assets/hero-colony.webp`) over the existing frontier art. The previews move away as the first scene expands; continued native scrolling crossfades to the city and then the colony, with gentle opposing camera movement. Scrolling backward reverses the sequence. These are studio concept images, not gameplay screenshots.
+
+The secondary scenes reuse their preview image URLs, are stored as optimized WebP assets, and decode asynchronously. Reduced motion presents a static collage with no pinned scroll sequence. The original headline, other sections, game pages, and maker credits are retained.
