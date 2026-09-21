@@ -1,0 +1,71 @@
+// Browser traffic is routed to demo emulators; production config stays untouched.
+import { chromium, expect } from '@playwright/test';
+import { initializeTestEnvironment } from '@firebase/rules-unit-testing';
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { readFileSync } from 'node:fs';
+const env = await initializeTestEnvironment({ projectId:'demo-antvx',firestore:{host:'127.0.0.1',port:8080},storage:{host:'127.0.0.1',port:9199} });
+await env.withSecurityRulesDisabled(async c => {
+ await setDoc(doc(c.firestore(),'members','owner@example.com'),{role:'owner',name:'Studio owner',updatedAt:serverTimestamp()});
+ await setDoc(doc(c.firestore(),'openings','game-development'),{open:true,compensation:'Paid',commitment:'10 hours',details:'Test role',updatedAt:serverTimestamp()});
+});
+const browser=await chromium.launch();
+const errors=[];
+async function makePage(email) {
+ const context=await browser.newContext({viewport:{width:1440,height:1000},acceptDownloads:true});
+ await context.route('**/js/firebase-config.js',r=>r.fulfill({contentType:'text/javascript',body:`export const firebaseConfig={apiKey:'fake-key',authDomain:'demo-antvx.firebaseapp.com',projectId:'demo-antvx',storageBucket:'demo-antvx.appspot.com',appId:'demo'};export const configured=true;export const appCheckSiteKey='';`}));
+ const firebase=readFileSync('js/firebase.js','utf8').replace('const app = appSDK.initializeApp(firebaseConfig);',`const app = appSDK.initializeApp(firebaseConfig);
+ authSDK.connectAuthEmulator(authSDK.getAuth(app),'http://127.0.0.1:9099',{disableWarnings:true});
+ dbSDK.connectFirestoreEmulator(dbSDK.getFirestore(app),'127.0.0.1',8080);
+ storageSDK.connectStorageEmulator(storageSDK.getStorage(app),'127.0.0.1',9199);`).replace('return a.signInWithPopup(auth, new a.GoogleAuthProvider());',`return a.signInWithCredential(auth,a.GoogleAuthProvider.credential(JSON.stringify({sub:${JSON.stringify(email)},email:${JSON.stringify(email)},email_verified:true,name:'Test Applicant'})));`);
+ await context.route('**/js/firebase.js',r=>r.fulfill({contentType:'text/javascript',body:firebase}));
+ const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));return page;
+}
+try {
+ const applicant=await makePage('browser-applicant@example.com');
+ await applicant.goto('http://localhost:8000/careers/');
+ await applicant.getByRole('article').filter({has:applicant.getByRole('heading',{name:'Game Development',exact:true})}).getByRole('button',{name:'Apply'}).click();
+ await applicant.getByRole('button',{name:'Continue with Google'}).click();
+ await expect(applicant.locator('#application-form')).toBeVisible({timeout:15000});
+ for(const [name,value] of Object.entries({name:'Browser Applicant',timezone:'UTC',availability:'10 hours',motivation:'Build worlds with a small team.',experience:'I built a test game.',answer1:'Server-authoritative inventory.',answer2:'Validate all purchases on the server.'})) await applicant.locator(`[name="${name}"]`).fill(value);
+ await applicant.locator('[name="resume"]').setInputFiles({name:'resume.pdf',mimeType:'application/pdf',buffer:Buffer.from('%PDF-1.4\n% Test resume\n')});
+ await applicant.locator('[name="consent"]').check();
+ await applicant.getByRole('button',{name:'Send application'}).click();
+ await expect(applicant.locator('#application-message')).toContainText('Application received',{timeout:15000});
+ await applicant.getByRole('button',{name:'Close application'}).click();
+ await expect(applicant.locator('#my-list')).toContainText('Submitted');
+ const owner=await makePage('owner@example.com');
+ await owner.goto('http://localhost:8000/team/');await owner.getByRole('button',{name:'Enter the team portal'}).click();
+ await expect(owner.locator('#portal')).toBeVisible({timeout:15000});
+ await owner.getByLabel('Search applications').fill('Browser Applicant');
+ await owner.getByRole('button',{name:'Review application'}).click();
+ await owner.getByLabel('Application status').selectOption('Interview');await owner.getByRole('button',{name:'Save status'}).click();
+ await expect(owner.locator('#review-message')).toContainText('Status saved');
+ await owner.getByLabel('Private reviewer note').fill('Strong server security thinking.');await owner.getByRole('button',{name:'Add private note'}).click();
+ await expect(owner.locator('#review-content')).toContainText('Strong server security thinking.');
+ const downloadPromise=owner.waitForEvent('download');await owner.getByRole('button',{name:'Download resume'}).click();const download=await downloadPromise; if(await download.failure()) throw new Error('Resume download failed');
+ await owner.screenshot({path:'/tmp/antvx-review.png',fullPage:true});
+ await owner.getByRole('button',{name:'Close review'}).click();
+ await expect(applicant.locator('#my-list')).toContainText('Interview');
+ await expect(applicant.locator('body')).not.toContainText('Strong server security thinking.');
+ await owner.getByRole('button',{name:'Studio board',exact:true}).click();
+ await owner.getByLabel('Task title').fill('Prepare colony playtest');await owner.getByLabel('Details',{exact:true}).fill('Verify the new player experience.');await owner.getByRole('button',{name:'Create task'}).click();
+ await expect(owner.locator('#workspace .data-list')).toContainText('Prepare colony playtest');
+ await owner.getByLabel('Task status').selectOption('In progress');await owner.getByRole('button',{name:'Update status'}).click();
+ await expect(owner.locator('#workspace .data-list .tag')).toHaveText('In progress');
+ await owner.getByRole('button',{name:'Announcements',exact:true}).click();await owner.getByLabel('Title',{exact:false}).fill('Playtest this weekend');await owner.getByLabel('Message').fill('Share your availability with the team.');await owner.getByRole('button',{name:'Post announcement'}).click();
+ await expect(owner.locator('#workspace .data-list')).toContainText('Playtest this weekend');
+ await owner.getByRole('button',{name:'Team access',exact:true}).click();
+ await owner.getByLabel('Google account email').fill('browser-reviewer@example.com');await owner.getByLabel('Name',{exact:false}).fill('Browser Reviewer');await owner.getByRole('button',{name:'Grant access'}).click();
+ await expect(owner.locator('#workspace .data-list')).toContainText('browser-reviewer@example.com');
+ const reviewer=await makePage('browser-reviewer@example.com');await reviewer.goto('http://localhost:8000/team/');await reviewer.getByRole('button',{name:'Enter the team portal'}).click();await expect(reviewer.locator('#portal')).toBeVisible({timeout:15000});
+ await expect(reviewer.getByRole('button',{name:'Team access',exact:true})).toHaveCount(0);await expect(reviewer.getByRole('button',{name:'Open roles',exact:true})).toHaveCount(0);
+ owner.on('dialog',dialog=>dialog.accept());await owner.locator('.data-card').filter({has:owner.getByRole('heading',{name:'Browser Reviewer',exact:true})}).getByRole('button',{name:'Revoke access'}).click();await expect(reviewer.locator('#portal')).toBeHidden({timeout:15000});
+ await owner.getByRole('button',{name:'Open roles',exact:true}).click();const events=owner.locator('form').filter({has:owner.getByRole('heading',{name:'Events',exact:true})});await events.getByLabel('Arrangement').selectOption('Volunteer');await events.getByLabel('Commitment').fill('2 hours / week · Remote');await events.getByLabel('Role details').fill('Unpaid community volunteer role.');await events.getByLabel('Accepting applications').check();await events.getByRole('button',{name:'Save role'}).click();await expect(owner.locator('#portal-message')).toContainText('Events updated');
+ await expect(applicant.getByRole('article').filter({has:applicant.getByRole('heading',{name:'Events',exact:true})}).getByRole('button',{name:'Apply'})).toBeVisible();
+ await owner.getByRole('button',{name:'Applications',exact:true}).click();await owner.getByLabel('Search applications').fill('');await owner.screenshot({path:'/tmp/antvx-portal-1440.png',fullPage:true});
+ await owner.setViewportSize({width:390,height:844});await owner.screenshot({path:'/tmp/antvx-portal-390.png',fullPage:true});
+ if(!(await owner.evaluate(()=>document.documentElement.scrollWidth<=innerWidth))) throw new Error('Portal mobile overflow');
+ applicant.on('dialog',dialog=>dialog.accept());await applicant.getByRole('button',{name:'Withdraw application'}).click();await expect(applicant.locator('#my-list')).toContainText('Withdrawn');
+ if(errors.length) throw new Error(errors.join('\n'));
+ console.log('E2E passed: PDF application, applicant status, private note, authenticated resume download, tasks, announcements, role publishing, invitations, reviewer permissions, revocation, withdrawal, and portal mobile layout.');
+} finally { await browser.close(); await env.cleanup(); }

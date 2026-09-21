@@ -1,0 +1,7 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { roles, validateApplication, validateResume } from '../js/roles.js';
+const valid = { roleId:'game-development',name:'Applicant',email:'applicant@example.com',timezone:'UTC',availability:'10 hours',motivation:'Create worlds',experience:'Personal project',answer1:'A server system',answer2:'Server validation',portfolio:'https://example.com',consent:true };
+test('all 12 disciplines have distinct role-specific questions',()=>{assert.equal(roles.length,12);assert.equal(new Set(roles.map(r=>r.id)).size,12);assert.equal(new Set(roles.flatMap(r=>r.questions)).size,24);});
+test('valid application passes and required / malformed inputs fail',()=>{assert.equal(validateApplication({...valid}).roleId,'game-development');for(const change of [{roleId:'admin'},{email:'invalid'},{consent:false},{portfolio:'javascript:alert(1)'},{motivation:' '},{answer1:'x'.repeat(4001)}]) assert.throws(()=>validateApplication({...valid,...change}));});
+test('resume limits reject disguised / oversized / empty files',()=>{validateResume();validateResume({type:'application/pdf',name:'resume.pdf',size:2048});for(const file of [{type:'text/html',name:'resume.pdf',size:5},{type:'application/pdf',name:'resume.html',size:5},{type:'application/pdf',name:'resume.pdf',size:0},{type:'application/pdf',name:'resume.pdf',size:5*1024*1024+1}]) assert.throws(()=>validateResume(file));});

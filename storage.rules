@@ -1,0 +1,20 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function verified() { return request.auth != null && request.auth.token.email_verified == true; }
+    function team() {
+      return verified() && firestore.get(/databases/(default)/documents/members/$(request.auth.token.email)).data.role in ['owner','admin','reviewer'];
+    }
+    match /resumes/{uid}/{filename} {
+      allow read: if verified() && (request.auth.uid == uid || team());
+      // PDF names are role IDs. Files lock as soon as the application is submitted.
+      allow create, update: if verified() && request.auth.uid == uid
+        && filename.matches('(community-operations|player-support|trust-safety|quality-assurance|game-development|ui-ux-design|3d-art-building|vfx-animation|content-creation|social-media|events|partnerships)[.]pdf')
+        && request.resource.size > 0 && request.resource.size <= 5 * 1024 * 1024
+        && request.resource.contentType == 'application/pdf'
+        && request.resource.metadata.size() == 0
+        && firestore.get(/databases/(default)/documents/openings/$(filename.replace('[.]pdf$', ''))).data.open == true
+        && !firestore.exists(/databases/(default)/documents/applications/$(uid + '_' + filename.replace('[.]pdf$', '')));
+    }
+  }
+}
