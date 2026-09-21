@@ -1,0 +1,8 @@
+node_modules/
+*-debug.log
+.firebase/
+playwright-report/
+test-results/
+.env*
+service-account*.json
+dist/

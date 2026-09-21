@@ -1,0 +1,93 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function verified() { return request.auth != null && request.auth.token.email_verified == true; }
+    function memberPath() { return /databases/$(database)/documents/members/$(request.auth.token.email); }
+    function team() { return verified() && exists(memberPath()) && get(memberPath()).data.role in ['owner','admin','reviewer']; }
+    function manager() { return team() && get(memberPath()).data.role in ['owner','admin']; }
+    function owner() { return team() && get(memberPath()).data.role == 'owner'; }
+    function roleId(id) { return id in ['community-operations','player-support','trust-safety','quality-assurance','game-development','ui-ux-design','3d-art-building','vfx-animation','content-creation','social-media','events','partnerships']; }
+    function text(value, min, max) { return value is string && value.size() >= min && value.size() <= max; }
+    function status(value) { return value in ['Submitted','In review','Interview','Offer','Accepted','Declined','Withdrawn']; }
+    match /members/{email} {
+      allow get: if verified() && (request.auth.token.email == email || owner());
+      allow list: if owner();
+      // Owner assignment is a trusted Admin SDK operation. Owners cannot remove themselves.
+      allow create, update: if owner() && email != request.auth.token.email
+        && request.resource.data.keys().hasOnly(['role','name','updatedAt'])
+        && request.resource.data.role in ['admin','reviewer']
+        && text(request.resource.data.name, 1, 200)
+        && request.resource.data.updatedAt == request.time
+        && (!exists(/databases/$(database)/documents/members/$(email)) || resource.data.role != 'owner');
+      allow delete: if owner() && resource.data.role != 'owner';
+    }
+    match /openings/{id} {
+      allow read: if true;
+      allow create, update: if manager() && roleId(id)
+        && request.resource.data.keys().hasOnly(['open','compensation','commitment','details','updatedAt'])
+        && request.resource.data.open is bool
+        && request.resource.data.compensation in ['Paid','Volunteer']
+        && text(request.resource.data.commitment,1,200)
+        && text(request.resource.data.details,1,1000)
+        && request.resource.data.updatedAt == request.time;
+    }
+    match /applications/{id} {
+      allow get: if team() || (verified() && id.matches(request.auth.uid + '_.*'));
+      allow list: if team() || (verified() && resource.data.uid == request.auth.uid);
+      allow create: if verified()
+        && request.resource.data.keys().hasOnly(['terms','uid','roleId','name','email','discord','roblox','timezone','availability','portfolio','motivation','experience','answer1','answer2','consent','resumePath','status','createdAt','updatedAt','privacyVersion'])
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.email == request.auth.token.email
+        && id == request.auth.uid + '_' + request.resource.data.roleId
+        && roleId(request.resource.data.roleId)
+        && get(/databases/$(database)/documents/openings/$(request.resource.data.roleId)).data.open == true
+        && request.resource.data.terms == {
+          'compensation':get(/databases/$(database)/documents/openings/$(request.resource.data.roleId)).data.compensation,
+          'commitment':get(/databases/$(database)/documents/openings/$(request.resource.data.roleId)).data.commitment,
+          'details':get(/databases/$(database)/documents/openings/$(request.resource.data.roleId)).data.details
+        }
+        && request.resource.data.status == 'Submitted'
+        && request.resource.data.createdAt == request.time && request.resource.data.updatedAt == request.time
+        && request.resource.data.consent == true && request.resource.data.privacyVersion == '2026-09-21'
+        && text(request.resource.data.name,1,200) && text(request.resource.data.email,1,200)
+        && text(request.resource.data.discord,0,100) && text(request.resource.data.roblox,0,100)
+        && text(request.resource.data.timezone,1,200) && text(request.resource.data.availability,1,200)
+        && text(request.resource.data.portfolio,0,500)
+        && (request.resource.data.portfolio == '' || request.resource.data.portfolio.matches('https://[^\\s]+'))
+        && text(request.resource.data.motivation,1,4000) && text(request.resource.data.experience,1,4000)
+        && text(request.resource.data.answer1,1,4000) && text(request.resource.data.answer2,1,4000)
+        && request.resource.data.resumePath in ['', 'resumes/' + request.auth.uid + '/' + request.resource.data.roleId + '.pdf'];
+      allow update: if request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','updatedAt'])
+        && request.resource.data.updatedAt == request.time
+        && ((team() && status(request.resource.data.status))
+          || (verified() && resource.data.uid == request.auth.uid && !(resource.data.status in ['Withdrawn','Declined','Accepted']) && request.resource.data.status == 'Withdrawn'));
+      match /notes/{note} {
+        allow read: if team();
+        allow create: if team() && exists(/databases/$(database)/documents/applications/$(id))
+          && request.resource.data.keys().hasOnly(['body','author','createdAt'])
+          && text(request.resource.data.body,1,4000)
+          && request.resource.data.author == request.auth.token.email
+          && request.resource.data.createdAt == request.time;
+      }
+    }
+    match /announcements/{id} {
+      allow read: if team();
+      allow create: if manager() && request.resource.data.keys().hasOnly(['title','body','author','createdAt'])
+        && text(request.resource.data.title,1,200) && text(request.resource.data.body,1,4000)
+        && request.resource.data.author == request.auth.token.email && request.resource.data.createdAt == request.time;
+      allow delete: if manager();
+    }
+    match /tasks/{id} {
+      allow read: if team();
+      allow create: if manager() && request.resource.data.keys().hasOnly(['title','body','assignee','due','status','author','createdAt','updatedAt'])
+        && text(request.resource.data.title,1,200) && text(request.resource.data.body,0,4000)
+        && text(request.resource.data.assignee,0,200) && text(request.resource.data.due,0,10)
+        && request.resource.data.status == 'To do'
+        && request.resource.data.author == request.auth.token.email
+        && request.resource.data.createdAt == request.time && request.resource.data.updatedAt == request.time;
+      allow update: if team() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','updatedAt'])
+        && request.resource.data.status in ['To do','In progress','Done'] && request.resource.data.updatedAt == request.time;
+      allow delete: if manager();
+    }
+  }
+}

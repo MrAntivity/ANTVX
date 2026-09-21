@@ -1,0 +1,36 @@
+name: Verify careers and portal
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm test
+      - run: npm run test:rules
+      - run: npm run build
+      - name: Browser and Firebase workflow checks
+        run: |
+          python3 -m http.server 8000 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID"' EXIT
+          for attempt in 1 2 3 4 5; do
+            if curl --fail --silent http://localhost:8000/careers/ > /dev/null; then break; fi
+            sleep 1
+          done
+          npm run test:browser
+          npm run test:e2e

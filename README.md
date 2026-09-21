@@ -32,3 +32,11 @@ Before publishing, open the home page at desktop and phone sizes, scroll forward
 The hero layers two additional original concept images (`assets/hero-city.webp` and `assets/hero-colony.webp`) over the existing frontier art. The previews move away as the first scene expands; continued native scrolling crossfades to the city and then the colony, with gentle opposing camera movement. Scrolling backward reverses the sequence. These are studio concept images, not gameplay screenshots.
 
 The secondary scenes reuse their preview image URLs, are stored as optimized WebP assets, and decode asynchronously. Reduced motion presents a static collage with no pinned scroll sequence. The original headline, other sections, game pages, and maker credits are retained.
+
+## Careers and studio portal
+
+`/careers/` adds 12 disciplines, tailored application questions, verified Google sign-in, optional private PDF resumes, and applicant status tracking. `/team/` provides invite-only application review, private notes, studio tasks, announcements, role publishing, and owner-managed access. Both reuse the existing dark/orange studio design.
+
+Firebase configuration is intentionally blank until a project is created. Read [FIREBASE_SETUP.md](FIREBASE_SETUP.md) for activation, initial owner setup, permissions, testing, and operations. Roles remain closed until an admin sets their paid/volunteer arrangement and opens them.
+
+The deployment workflow now stages only public website assets in `dist/`; tests, Firebase rules, setup documentation, and development dependencies are excluded from the published site.
