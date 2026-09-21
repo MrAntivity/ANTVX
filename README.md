@@ -35,7 +35,7 @@ The secondary scenes reuse their preview image URLs, are stored as optimized Web
 
 ## Careers and studio portal
 
-`/careers/` adds 12 disciplines, tailored application questions, verified Google sign-in, optional private PDF resumes, and applicant status tracking. `/team/` provides invite-only application review, private notes, studio tasks, announcements, role publishing, and owner-managed access. Both reuse the existing dark/orange studio design.
+`/careers/` adds 12 disciplines, tailored application questions, verified Google sign-in, optional private PDF resumes, and applicant status tracking. `/team/` provides invite-only application review, private notes, studio tasks, announcements, role publishing, and owner-managed access. Both reuse the existing dark/orange studio design. The portal has no public navigation or footer links; team members access `/team` directly. Its page requests no search indexing, and Firebase authentication and membership rules protect the data.
 
 Firebase configuration is intentionally blank until a project is created. Read [FIREBASE_SETUP.md](FIREBASE_SETUP.md) for activation, initial owner setup, permissions, testing, and operations. Roles remain closed until an admin sets their paid/volunteer arrangement and opens them.
 

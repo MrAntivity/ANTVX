@@ -50,7 +50,7 @@ The Firebase Console is a trusted administrative interface. The public website c
 
 ## 4. Publish and open roles
 
-Publish the site using the existing GitHub Pages workflow after merging the feature branch. `/careers` and `/team` resolve to directory index pages, with a normal trailing-slash redirect.
+Publish the site using the existing GitHub Pages workflow after merging the feature branch. The portal is deliberately absent from public navigation and footers. Team members type `https://antvx.xyz/team` directly; Firebase sign-in and membership rules still control access. `/careers` and `/team` resolve to directory index pages, with a normal trailing-slash redirect.
 
 1. Sign in at `/team/` with **aidenyue2006@gmail.com**.
 2. In **Team access**, add teammates’ exact Google account emails. This grants access; it does not send invitation emails. Share the portal address with them yourself.
